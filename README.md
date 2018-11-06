@@ -12,6 +12,8 @@ oschina : http://git.oschina.net/ccdream/yii2admin （国内可以下载这个�
 
 全站打包：https://share.weiyun.com/b0d11485e993bce1ee3398cbbf07e1e4 （不定期更新，安装出错的朋友可以试试这个）
 
+##composer
+composer global require "fxp/composer-asset-plugin:1.4.4"
 
 ## 一、开发基础说明
 * 系统配置文件为.env文件。

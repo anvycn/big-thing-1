@@ -1,5 +1,5 @@
 assets/*
 storage/*
 .idea/
-vender/
-
+vendor/
+composer.lock
