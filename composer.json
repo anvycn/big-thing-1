@@ -38,7 +38,7 @@
         "yiisoft/yii2-debug": "~2.0.0",
         "yiisoft/yii2-gii": "~2.0.0",
         "yiisoft/yii2-faker": "~2.0.0",
-
+        "eaglewu/swoole-ide-helper": "dev-master",
         "codeception/base": "^2.2.3",
         "codeception/verify": "~0.3.1"
     },
