@@ -23,7 +23,7 @@ class VbotController extends Base
      * @return string
      */
     public function actionCreate(){
-        $jid = $this->getRequest()->get['jid'] ?:md5(microtime().$this->uniqueId);
+        $jid = $this->getRequest()->get['jid'] ?? md5(microtime().$this->uniqueId);
         if(file_exists(\Yii::$app->getRuntimePath() . '/task.'.$jid)){
             return $jid;
         }
