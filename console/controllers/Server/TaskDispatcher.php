@@ -14,7 +14,7 @@ use Swoole\Http\Server;
 class TaskDispatcher
 {
 
-    public static function run(Server $serv, int $task_id, int $src_worker_id, mixed $data){
+    public static function run(Server $serv, int $task_id, int $src_worker_id, $data){
         $cmd  = $data['cmd'];
         if(!strpos($cmd,'/'))
             $cmd .= '/run';
@@ -35,7 +35,7 @@ class TaskDispatcher
         }
     }
 
-    public static function end(Server $serv, int $task_id, mixed $data){
+    public static function end(Server $serv, int $task_id, $data){
         $cmd  = $data['cmd'];
         if(!strpos($cmd,'/'))
             $cmd .= '/end';
