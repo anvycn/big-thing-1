@@ -9,15 +9,19 @@
 namespace console\controllers\Server;
 
 /**
- * Interface TaskInterface
+ * Class TaskInterface
  * @package console\controllers\Server
  * @property $serv Server
  * @property $task_id
  * @property $src_worker_id
  * @property $data
  */
-interface TaskInterface
+abstract class TaskInterface
 {
-    public function run();
-    public function end();
+    public $serv;
+    public $task_id;
+    public $scr_worker_id;
+    public $data;
+    public function run(){}
+    public function end(){}
 }

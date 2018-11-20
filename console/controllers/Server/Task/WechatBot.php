@@ -10,14 +10,13 @@ namespace console\controllers\Server\Task;
 
 use console\controllers\Server\TaskInterface;
 use Hanson\Vbot\Foundation\Vbot;
-use yii\base\Component;
 use yii\redis\Connection;
 
 /**
  * Class WechatBot
  * @package console\controllers\Server\Task
  */
-class WechatBot extends Component implements TaskInterface
+class WechatBot extends TaskInterface
 {
     private function getLock($jid){
         return \Yii::$app->getRuntimePath() . '/task.'.$jid;
