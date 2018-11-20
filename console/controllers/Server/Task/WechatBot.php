@@ -78,10 +78,10 @@ class WechatBot extends TaskInterface
                         'driver' => 'file',
                         'path'   => $runtime_path.'cache',
                     ],
-//                    'redis' => [
-//                        'driver'     => 'redis',
-//                        'connection' => 'default',
-//                    ],
+                    'redis' => [
+                        'driver'     => 'redis',
+                        'connection' => 'default',
+                    ],
                 ],
             ],
             /*
