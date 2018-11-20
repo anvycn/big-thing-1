@@ -29,7 +29,7 @@ class SwooleController extends Controller
 
     public $conf = [
         'worker_num' => 4,
-        'daemonize' => true && 0,
+        'daemonize' => true,
         'max_request' => 200,
         'task_worker_num' => 30,
         'task_worker_max' => 100
@@ -151,6 +151,8 @@ class SwooleController extends Controller
         $this->http->on('finish', function(Server $serv, $task_id, $data){
             TaskDispatcher::end($serv,$task_id,$data);
         });
+
+
         $this->http->start();
     }
 

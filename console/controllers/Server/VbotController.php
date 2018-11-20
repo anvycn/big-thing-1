@@ -37,16 +37,5 @@ class VbotController extends Base
         return $jid;
     }
 
-    /**
-     * 杀死某个机器人
-     * task中，启动的是一个daemon vbot
-     * 我还不知道怎么杀死它,杀不死
-     */
-    public function actionKill(){
-        $jid = $this->getRequest()->get['jid'];
-        $task_id = $this->redis->get("wechat:j2t:{$jid}");
-        $this->getServer()->stop($task_id,false);//立即退出
-    }
-
 }
 

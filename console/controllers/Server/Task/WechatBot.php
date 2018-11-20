@@ -147,9 +147,7 @@ class WechatBot extends TaskInterface
          * 程序退出时回调。
          */
         $observer->setExitObserver(function() use ($jid){
-            /** @var Connection $redis */
-            $redis = \Yii::$app->redis;
-            $redis->del("wechat:login:{$jid}");
+            $this->clear($jid);
         });
 
         /**
@@ -167,21 +165,22 @@ class WechatBot extends TaskInterface
          * 消息处理前监听器
          * 接收消息前回调。
          */
-//        $observer->setBeforeMessageObserver(function(){
-//
-//        });
+        $observer->setBeforeMessageObserver(function() use ($jid,$vbot){
+            if($this->getPoison($jid)){
+                $this->clear($jid);
+                exit(1);
+            }
+        });
 
         /**
          * 异常监听器
          * 当接收消息异常时，当系统判断为太久没从手机端打开微信时，则急需打开，时间过久将断开。
          */
-//        $observer->setNeedActivateObserver(function(){
-//
-//        });
+        $observer->setNeedActivateObserver(function() use ($jid){
+            //$this->clear($jid);
+        });
         //启动机器人
         $vbot->server->serve();
-
-
 
     }
 
@@ -192,12 +191,18 @@ class WechatBot extends TaskInterface
     {
         $data = json_decode($this->data,true);
         $jid = $data['jid'];
+        $this->clear($jid);
+    }
+
+
+    public function clear($jid){
         $redis = \Yii::$app->redis;
-        $redis->set("wechat:login:{$jid}",0);
+        $redis->del("wechat:login:{$jid}");
         $tid = $redis->get("wechat:j2t:{$jid}");
         $redis->del("wechat:j2t:{$jid}");
         $redis->del("wechat:t2j:{$tid}");
         $redis->del("wechat:qrcode:{$jid}");
+        $redis->del("wechat:info:{$jid}");
         //删除任务文件
         unlink($this->getLock($jid));
     }

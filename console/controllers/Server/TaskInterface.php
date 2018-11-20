@@ -8,6 +8,8 @@
 
 namespace console\controllers\Server;
 
+use yii\redis\Connection;
+
 /**
  * Class TaskInterface
  * @package console\controllers\Server
@@ -24,4 +26,14 @@ abstract class TaskInterface
     public $data;
     public function run(){}
     public function end(){}
+    public function getPoison($jid){
+        /** @var Connection $redis */
+        $redis = \Yii::$app->redis;
+        $poison = $redis->hget('wechat:poison',$jid);
+        if($poison){
+            $redis->hdel('wechat:poison',$jid);
+        }
+        return $poison;
+    }
+
 }
