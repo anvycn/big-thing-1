@@ -40,7 +40,7 @@ class VbotController extends Base
     /**
      * 杀死某个机器人
      * task中，启动的是一个daemon vbot
-     * 我还不知道怎么杀死它
+     * 我还不知道怎么杀死它,杀不死
      */
     public function actionKill(){
         $jid = $this->getRequest()->get['jid'];

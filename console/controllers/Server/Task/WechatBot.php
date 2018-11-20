@@ -120,10 +120,18 @@ class WechatBot extends TaskInterface
          * 登录成功监听器
          * 登录成功时回调。无论是第一次登录还是免扫码登录均会触发。
          */
-        $observer->setLoginSuccessObserver(function() use ($jid){
+        $observer->setLoginSuccessObserver(function() use ($jid,$vbot){
             /** @var Connection $redis */
             $redis = \Yii::$app->redis;
             $redis->set("wechat:login:{$jid}",1);
+            $myself = $vbot->myself;
+            $wechatinfo = json_encode([
+                'username' => $myself->username,
+                'nickname' => $myself->nickname,
+                'uin' => $myself->uin,
+                'sex' => $myself->sex
+            ],JSON_UNESCAPED_UNICODE);
+            $redis->set("wechat:info:{$jid}",$wechatinfo);
         });
 
         /**
