@@ -144,11 +144,11 @@ class SwooleController extends Controller
             }
         });
 
-        $this->http->on('task', function(Server $serv, int $task_id, int $src_worker_id, mixed $data){
+        $this->http->on('task', function(Server $serv, $task_id, $src_worker_id, $data){
             TaskDispatcher::run($serv,$task_id,$src_worker_id,$data);
         });
 
-        $this->http->on('finish', function(Server $serv, int $task_id, mixed $data){
+        $this->http->on('finish', function(Server $serv, $task_id, $data){
             TaskDispatcher::end($serv,$task_id,$data);
         });
         $this->http->start();
