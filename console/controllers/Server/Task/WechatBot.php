@@ -33,14 +33,16 @@ class WechatBot extends TaskInterface
         $runtime_path = \Yii::$app->getRuntimePath().'/vbot/';
         $config = [
             'path'     => $runtime_path,
+            'session_key' => 'vbot.',
+            'session' => $jid,
             /*
              * swoole 配置项（执行主动发消息命令必须要开启，且必须安装 swoole 插件）
              */
-//            'swoole'  => [
-//                'status' => true,
-//                'ip'     => '127.0.0.1',
-//                'port'   => '8866',
-//            ],
+            'swoole'  => [
+                'status' => false,
+                'ip'     => '127.0.0.1',
+                'port'   => '8866',
+            ],
             /*
              * 下载配置项
              */
