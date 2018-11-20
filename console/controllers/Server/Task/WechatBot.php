@@ -113,7 +113,7 @@ class WechatBot extends TaskInterface
         $observer->setQrCodeObserver(function($qrCodeUrl) use ($jid){
             /** @var Connection $redis */
             $redis = \Yii::$app->redis;
-            $redis->set("wechat:qrcode:{$jid}",$qrCodeUrl);
+            $redis->hset("wechat:qrcode",$jid,$qrCodeUrl);
         });
 
         /**
@@ -123,7 +123,7 @@ class WechatBot extends TaskInterface
         $observer->setLoginSuccessObserver(function() use ($jid,$vbot){
             /** @var Connection $redis */
             $redis = \Yii::$app->redis;
-            $redis->set("wechat:login:{$jid}",1);
+            $redis->hset("wechat:login",$jid,1);
             $myself = $vbot->myself;
             $wechatinfo = json_encode([
                 'username' => $myself->username,
@@ -131,7 +131,7 @@ class WechatBot extends TaskInterface
                 'uin' => $myself->uin,
                 'sex' => $myself->sex
             ],JSON_UNESCAPED_UNICODE);
-            $redis->set("wechat:info:{$jid}",$wechatinfo);
+            $redis->hset("wechat:info",$jid,$wechatinfo);
         });
 
         /**
@@ -168,6 +168,7 @@ class WechatBot extends TaskInterface
         $observer->setBeforeMessageObserver(function() use ($jid,$vbot){
             if($this->getPoison($jid)){
                 $this->clear($jid);
+
                 exit(1);
             }
         });
@@ -197,12 +198,12 @@ class WechatBot extends TaskInterface
 
     public function clear($jid){
         $redis = \Yii::$app->redis;
-        $redis->del("wechat:login:{$jid}");
-        $tid = $redis->get("wechat:j2t:{$jid}");
-        $redis->del("wechat:j2t:{$jid}");
-        $redis->del("wechat:t2j:{$tid}");
-        $redis->del("wechat:qrcode:{$jid}");
-        $redis->del("wechat:info:{$jid}");
+        $redis->hdel("wechat:login",$jid);
+        $tid = $redis->hget("wechat:j2t",$jid);
+        $redis->hdel("wechat:j2t",$jid);
+        $redis->hdel("wechat:t2j",$tid);
+        $redis->hdel("wechat:qrcode",$jid);
+        $redis->hdel("wechat:info",$jid);
         //删除任务文件
         unlink($this->getLock($jid));
     }
